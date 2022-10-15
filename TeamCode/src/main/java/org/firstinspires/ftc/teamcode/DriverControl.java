@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Base.RobotStructure;
 @TeleOp(name="DriverControl")
 public class DriverControl extends RobotStructure {
     public void loop() {
+    double armSpeed = 0.75 * gamepad2.left_stick_y;
     setArmSpeed(-armSpeed);
     initDriver();
 

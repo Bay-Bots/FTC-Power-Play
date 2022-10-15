@@ -22,6 +22,8 @@ public class RobotStructure extends OpMode {
     DcMotor motorFrontLeft;
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
+    DcMotorEx motorArmLeft;
+    DcMotorEx motorArmRight;
 
     @Override
     public void init() {
@@ -29,6 +31,8 @@ public class RobotStructure extends OpMode {
         motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
         motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
+        motorArmLeft = hardwareMap.get(DcMotorEx.class, "motorArmLeft");
+        motorArmRight = hardwareMap.get(DcMotorEx.class, "motorArmRight");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -51,7 +55,7 @@ public class RobotStructure extends OpMode {
         motorBackLeft.setPower(backLeftPower);
         motorFrontRight.setPower(frontRightPower);
         motorBackRight.setPower(backRightPower);
-        
+
     }  public void setDriverMotorPower(double FRightPower, double FLeftPower, double BRightPower, double BLeftPower) {
         motorFrontRight.setPower(FRightPower);
         motorFrontLeft.setPower(FLeftPower);
@@ -78,5 +82,10 @@ public class RobotStructure extends OpMode {
         motorFrontLeft.setPower(-m);
         motorBackLeft.setPower(m);
         motorBackRight.setPower(-m);
+        
+    } public void setArmSpeed(double speed) {
+        motorArm.setPower(-speed);
+        motorArmDuo.setPower(speed);
     }
+
 }

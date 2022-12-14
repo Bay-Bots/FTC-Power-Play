@@ -24,38 +24,53 @@ public class RobotStructure extends OpMode {
     DcMotor motorBackLeft;
     DcMotorEx motorArmLeft;
     DcMotorEx motorArmRight;
+   public Servo servoClaw1;
+   public Servo servoClaw2;
+    public DcMotor linearSlide;
+    DcMotor linearSlide2;
 
     @Override
     public void init() {
+        
         motorFrontLeft = hardwareMap.get(DcMotor.class, "motorFrontLeft");
         motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
         motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
-        motorArmLeft = hardwareMap.get(DcMotorEx.class, "motorArmLeft");
-        motorArmRight = hardwareMap.get(DcMotorEx.class, "motorArmRight");
+        servoClaw1 = hardwareMap.get(Servo.class, "servoClaw1");
+        servoClaw2 = hardwareMap.get(Servo.class, "servoClaw2");
+        linearSlide = hardwareMap.get(DcMotor.class, "LinearSlide");
+        linearSlide2 = hardwareMap.get(DcMotor.class, "LinearSlide2");
+
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
+    
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        servoClaw1.setPosition(0.5);
+        servoClaw2.setPosition(0.5);
     }
 
     @Override
+    public void loop() {}
     public void initDriver(){
         float gamepad1LeftY = gamepad1.left_stick_y;
         float gamepad1LeftX = gamepad1.left_stick_x;
+        float gamepad2RightY = gamepad2.right_stick_y;
         float gamepad1RightX = -gamepad1.right_stick_x;
         float frontRightPower = -gamepad1LeftY + gamepad1LeftX + gamepad1RightX;
         float frontLeftPower = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
         float backLeftPower = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
         float backRightPower = -gamepad1LeftY - gamepad1LeftX + gamepad1RightX;
+        float linearSlidePower = gamepad2RightY;
 
+        linearSlide.setPower(linearSlidePower);
+        linearSlide2.setPower(-linearSlidePower);
         motorFrontLeft.setPower(frontLeftPower);
         motorBackLeft.setPower(backLeftPower);
         motorFrontRight.setPower(frontRightPower);
         motorBackRight.setPower(backRightPower);
-
+        
     }  public void setDriverMotorPower(double FRightPower, double FLeftPower, double BRightPower, double BLeftPower) {
         motorFrontRight.setPower(FRightPower);
         motorFrontLeft.setPower(FLeftPower);
@@ -83,9 +98,13 @@ public class RobotStructure extends OpMode {
         motorBackLeft.setPower(m);
         motorBackRight.setPower(-m);
         
-    } public void setArmSpeed(double speed) {
-        motorArm.setPower(-speed);
-        motorArmDuo.setPower(speed);
+    }  public void setClawPos(double pos1, double pos2) {
+        servoClaw1.setPosition(pos1);
+        servoClaw2.setPosition(pos2);
+        
+    }     public void adjustSlide(double m) {
+        linearSlide.setPower(m);
     }
-
+    
+    
 }
